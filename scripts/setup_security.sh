@@ -104,7 +104,7 @@ find /bin /etc /lib /sbin /usr \
         -name ln -o \
         -name od -o \
         -name strings -o \
-        -name su \
+        -name su -o \
         -name sudo \
     \) \
   -delete
@@ -174,9 +174,12 @@ find /bin /etc /lib /sbin /usr \
 
 
 # Remove chmod and the shell
+# NOTE: this only removes the /bin/sh symlink. busybox itself is kept (find/rm
+# above ARE busybox), so `busybox sh` remains reachable. See README "What sealed
+# means here".
 /usr/bin/find /bin /etc /lib /sbin /usr \
     -xdev \( \
-      -name chmod \
+      -name chmod -o \
       -name sh \
     \) \
   -delete
